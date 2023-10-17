@@ -11,6 +11,7 @@
 #include "SG_GameMode.generated.h"
 
 class AExponentialHeightFog;
+class ASG_Food;
 class ASG_Grid;
 class ASG_Snake;
 class UInputAction;
@@ -40,11 +41,14 @@ protected:
     UPROPERTY(Category = "Settings", EditDefaultsOnly, meta = (ClampMin = "0.01", ClampMax = "10"))
     float GameSpeed{1.0f};
 
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(Category = "Design", EditDefaultsOnly)
     TSubclassOf<ASG_Grid> GridVisualClass;
 
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(Category = "Design", EditDefaultsOnly)
     TSubclassOf<ASG_Snake> SnakeVisualClass;
+
+    UPROPERTY(Category = "Design", EditDefaultsOnly)
+    TSubclassOf<ASG_Food> FoodVisualClass;
 
     UPROPERTY(Category = "Design", EditDefaultsOnly)
     TObjectPtr<UDataTable> ColorsTable;
@@ -67,6 +71,9 @@ private:
 
     UPROPERTY()
     ASG_Snake* SnakeVisual;
+
+    UPROPERTY()
+    ASG_Food* FoodVisual;
 
     UPROPERTY()
     AExponentialHeightFog* Fog;

@@ -7,7 +7,9 @@
 #include "Misc/AutomationTest.h"
 #include "SnakeGame/Core/Grid.h"
 #include "SnakeGame/Tests/Utils/TestUtils.h"
+#include "SnakeGame/World/SG_Food.h"
 #include "SnakeGame/World/SG_Grid.h"
+#include "SnakeGame/World/SG_Snake.h"
 #include "SnakeGame/World/SG_WorldTypes.h"
 
 BEGIN_DEFINE_SPEC(FSnakeWorld, "Snake", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter | EAutomationTestFlags::HighPriority)
@@ -23,7 +25,7 @@ void FSnakeWorld::Define()
 {
     using namespace Moonabyss::Test;
 
-    Describe("WorldGrid",
+    Describe("World.Grid",
         [this]()
         {
             BeforeEach(
@@ -92,13 +94,22 @@ void FSnakeWorld::Define()
                     World = GetTestGameWorld();
                 });
 
-            It("OnlyOneValidGridActorShouldExists",
+            It("OnlyOneValidModelActorShouldExists",
                 [this]()
                 {
-                    TArray<AActor*> Grids;
-                    UGameplayStatics::GetAllActorsOfClass(World, ASG_Grid::StaticClass(), Grids);
-                    TestTrueExpr(Grids.Num() == 1);
-                    TestNotNull("Grid actor exists", Grids[0]);
+                    TArray<AActor*> Actors;
+
+                    UGameplayStatics::GetAllActorsOfClass(World, ASG_Grid::StaticClass(), Actors);
+                    TestTrueExpr(Actors.Num() == 1);
+                    TestNotNull("Grid actor exists", Actors[0]);
+
+                    UGameplayStatics::GetAllActorsOfClass(World, ASG_Snake::StaticClass(), Actors);
+                    TestTrueExpr(Actors.Num() == 1);
+                    TestNotNull("Snake actor exists", Actors[0]);
+
+                    UGameplayStatics::GetAllActorsOfClass(World, ASG_Food::StaticClass(), Actors);
+                    TestTrueExpr(Actors.Num() == 1);
+                    TestNotNull("Food actor exists", Actors[0]);
                 });
         });
 }

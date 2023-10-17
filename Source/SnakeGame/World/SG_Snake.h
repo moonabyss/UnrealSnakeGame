@@ -20,12 +20,17 @@ public:
     ASG_Snake();
     virtual void Tick(float DeltaTime) override;
 
+    /**
+     * Set core model to be observed by the Snake world actor
+     * @param Snake  model object
+     * @param CellSize  world size of the cell
+     * @param Dims  dimensions of the grid
+     */
     void SetModel(const TSharedPtr<SnakeGame::Snake>& InSnake, uint32 InCellSize, const SnakeGame::Dim& InDims);
+
     void UpdateColors(const FSnakeColors& Colors);
 
 protected:
-    virtual void BeginPlay() override;
-
     UPROPERTY(EditDefaultsOnly)
     TSubclassOf<ASG_SnakeLink> SnakeHeadClass;
 
@@ -39,4 +44,7 @@ private:
 
     UPROPERTY()
     TArray<ASG_SnakeLink*> SnakeLinks;
+
+    UPROPERTY()
+    FLinearColor SnakeLinkColor{FLinearColor::Black};
 };
