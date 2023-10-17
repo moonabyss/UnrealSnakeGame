@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SnakeGame/Containers/List.h"
 
 namespace SnakeGame
 {
@@ -16,6 +17,7 @@ struct Position
 {
     // clang-format off
     Position(uint32 inX, uint32 inY) : x(inX), y(inY) {}
+    Position(const Position& position = Position::Zero) : x(position.x), y(position.y) {}
     // clang-format on
     uint32 x;
     uint32 y;
@@ -26,6 +28,8 @@ struct Position
         y += rhs.y;
         return *this;
     }
+
+    FORCEINLINE bool operator==(const Position& rhs) const { return x == rhs.x && y == rhs.y; }
 
     static Position Zero;
 };
@@ -47,8 +51,8 @@ enum class CellType
 {
     Empty = 0,
     Wall,
-    Snake
-    // Food
+    Snake,
+    Food
 };
 
 struct Settings
@@ -62,15 +66,7 @@ struct Settings
     float gameSpeed{1.0f};
 };
 
-using TPositionPtr = TDoubleLinkedList<Position>::TDoubleLinkedListNode;
+using TSnakeList = TDoubleLinkedList<Position>;
+using TPositionPtr = TSnakeList::TDoubleLinkedListNode;
 
-class TSnakeList : public TDoubleLinkedList<Position>
-{
-public:
-    void MoveTail(TPositionPtr* tail, TPositionPtr* head, const Position& pos)
-    {
-        RemoveNode(tail);
-        InsertNode(pos, head);
-    }
-};
 }  // namespace SnakeGame

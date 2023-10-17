@@ -1,6 +1,7 @@
 // Snake Game, Copyright moonabyss. Al Rights Reserved.
 
 #include "SnakeGame/Core/Game.h"
+#include "SnakeGame/Core/Food.h"
 #include "SnakeGame/Core/Grid.h"
 #include "SnakeGame/Core/Snake.h"
 
@@ -10,32 +11,40 @@ Game::Game(const Settings& settings)
     : c_settings(settings)
 {
     m_grid = MakeShared<Grid>(settings.gridDims);
+    checkf(m_grid->dim().width / 2 >= settings.snake.defaultSize, TEXT("Snake initial length [%i] doesn't fir grid width [%i]"), settings.snake.defaultSize, m_grid->dim().width);
     m_snake = MakeShared<Snake>(settings.snake);
+    m_food = MakeShared<Food>();
     updateGrid();
+    generateFood();
 }
 
 void Game::update(float deltaSeconds, const Input& input)
 {
     if (m_gameOver || !updateTime(deltaSeconds)) return;
 
-    move(input);
+    m_snake->move(input);
 
     if (died())
     {
         m_gameOver = true;
         UE_LOG(LogTemp, Display, TEXT("----------- GAME OVER  -----------"));
+        UE_LOG(LogTemp, Display, TEXT("----------- SCORE: %i  -----------"), m_score);
+        return;
     }
-}
 
-void Game::move(const Input& input)
-{
-    m_snake->move(input);
+    if (foodTaken())
+    {
+        ++m_score;
+        m_snake->increase();
+        generateFood();
+    }
+
     updateGrid();
 }
 
 void Game::updateGrid()
 {
-    m_grid->update(m_snake->body(), CellType::Snake);
+    m_grid->update(m_snake->links().GetHead(), CellType::Snake);
     m_grid->printDebug();
 }
 
@@ -51,4 +60,25 @@ bool Game::died() const
 {
     return m_grid->hitTest(m_snake->head(), CellType::Wall) ||  //
            m_grid->hitTest(m_snake->head(), CellType::Snake);
+}
+
+void Game::generateFood()
+{
+    Position foodPosition;
+    if (m_grid->randomEmptyPosition(foodPosition))
+    {
+        m_food->setPosition(foodPosition);
+        m_grid->update(m_food->position(), CellType::Food);
+    }
+    else
+    {
+        m_gameOver = true;
+        UE_LOG(LogTemp, Display, TEXT("----------- GAME COMPLETED  -----------"));
+        UE_LOG(LogTemp, Display, TEXT("----------- SCORE: %i  -----------"), m_score);
+    }
+}
+
+bool Game::foodTaken() const
+{
+    return m_grid->hitTest(m_snake->head(), CellType::Food);
 }

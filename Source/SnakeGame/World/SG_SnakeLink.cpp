@@ -1,6 +1,7 @@
 // Snake Game, Copyright moonabyss. Al Rights Reserved.
 
 #include "SnakeGame/World/SG_SnakeLink.h"
+#include "SnakeGame/World/SG_WorldUtils.h"
 
 ASG_SnakeLink::ASG_SnakeLink()
 {
@@ -15,7 +16,7 @@ ASG_SnakeLink::ASG_SnakeLink()
     LinkMesh->SetupAttachment(Origin);
 }
 
-void ASG_SnakeLink::UpdateColors(const FLinearColor& Color)
+void ASG_SnakeLink::UpdateColor(const FLinearColor& Color)
 {
     if (auto* LinkMaterial = LinkMesh->CreateAndSetMaterialInstanceDynamic(0))
     {
@@ -25,12 +26,5 @@ void ASG_SnakeLink::UpdateColors(const FLinearColor& Color)
 
 void ASG_SnakeLink::UpdateScale(uint32 CellSize)
 {
-    check(LinkMesh->GetStaticMesh());
-    const FBox Box = LinkMesh->GetStaticMesh()->GetBoundingBox();
-    const auto Size = Box.GetSize();
-
-    check(Size.X);
-    check(Size.Y);
-    check(Size.Z);
-    LinkMesh->SetRelativeScale3D(FVector(CellSize / Size.X, CellSize / Size.Y, CellSize / Size.Z));
+    SnakeGame::WorldUtils::ScaleMesh(LinkMesh, FVector(CellSize));
 }
