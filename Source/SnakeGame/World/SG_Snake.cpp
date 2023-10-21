@@ -76,3 +76,11 @@ void ASG_Snake::UpdateColors(const FSnakeColors& Colors)
         SnakeLinks[i]->UpdateColor(i == 0 ? Colors.SnakeHeadColor : Colors.SnakeLinkColor);
     }
 }
+
+void ASG_Snake::Explode()
+{
+    for (auto* LinkActor : SnakeLinks)
+    {
+        LinkActor->Explode();
+    }
+}

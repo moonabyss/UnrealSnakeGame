@@ -30,6 +30,8 @@ public:
 
     void UpdateColors(const FSnakeColors& Colors);
 
+    void Explode();
+
 protected:
     UPROPERTY(EditDefaultsOnly)
     TSubclassOf<ASG_SnakeLink> SnakeHeadClass;
