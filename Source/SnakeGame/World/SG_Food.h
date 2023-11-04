@@ -31,6 +31,8 @@ public:
 
     void Explode();
 
+    void Hide();
+
 protected:
     UPROPERTY(VisibleAnywhere)
     USceneComponent* Origin;

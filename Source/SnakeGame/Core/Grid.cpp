@@ -20,7 +20,7 @@ Grid::Grid(const Dim& dim, const IPositionRandomizerPtr& randomizer)
 
     m_cells.Init(CellType::Empty, c_dim.width * c_dim.height);
     initWalls();
-    printDebug();
+    // printDebug();
 }
 
 void Grid::initWalls()
