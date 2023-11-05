@@ -8,6 +8,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "SnakeGame/Core/Grid.h"
 #include "SnakeGame/Core/Types.h"
+#include "SnakeGame/Framework/SG_GameUserSettings.h"
 #include "SnakeGame/Framework/SG_Pawn.h"
 #include "SnakeGame/UI/SG_HUD.h"
 #include "SnakeGame/World/SG_Food.h"
@@ -82,6 +83,8 @@ void ASG_GameMode::StartPlay()
     HUD->SetModel(Game);
     const FString ResetGameKeyName = SnakeGame::WorldUtils::FindActionKeyName(InputMapping, ResetGameInputAction);
     HUD->SetInputKeyNames(ResetGameKeyName);
+
+    SnakeGame::WorldUtils::SetUIInput(GetWorld(), false);
 }
 
 void ASG_GameMode::Tick(float DeltaSeconds)
@@ -186,16 +189,31 @@ void ASG_GameMode::OnGameReset(const FInputActionValue& Value)
 
         SnakeInput = SnakeGame::Input::Default;
         NextColor();
+
+        SnakeGame::WorldUtils::SetUIInput(GetWorld(), false);
     }
 }
 
 SnakeGame::Settings ASG_GameMode::MakeSettings() const
 {
     SnakeGame::Settings GS;
-    GS.gridDims = SnakeGame::Dim{GridDims.X, GridDims.Y};
-    GS.gameSpeed = GameSpeed;
+
+#if WITH_EDITOR
+    if (bOverrideUserSettings)
+    {
+        GS.gridDims = SnakeGame::Dim{GridDims.X, GridDims.Y};
+        GS.gameSpeed = GameSpeed;
+    }
+    else
+#endif
+        if (const auto* GameSettings = USG_GameUserSettings::Get())
+    {
+        GS.gridDims = GameSettings->GridSize();
+        GS.gameSpeed = GameSettings->GameSpeed();
+    }
+
     GS.snake.defaultSize = SnakeDefaultSize;
-    GS.snake.startPosition = SnakeGame::Grid::center(GridDims.X, GridDims.Y);
+    GS.snake.startPosition = SnakeGame::Grid::center(GS.gridDims.width, GS.gridDims.height);
     return GS;
 }
 
@@ -213,6 +231,7 @@ void ASG_GameMode::SubscribeOnGameEvents()
                     UE_LOG(LogSnakeGameMode, Display, TEXT("----------- SCORE: %i  -----------"), Game->score());
                     SnakeVisual->Explode();
                     FoodVisual->Hide();
+                    WorldUtils::SetUIInput(GetWorld(), true);
                     break;
                 case GameplayEvent::GameCompleted:
                     UE_LOG(LogSnakeGameMode, Display, TEXT("----------- GAME COMPLETED  -----------"));

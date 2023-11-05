@@ -11,6 +11,8 @@ struct Dim
 {
     uint32 width;
     uint32 height;
+
+    FORCEINLINE bool operator==(const Dim& rhs) const { return width == rhs.width && height == rhs.height; }
 };
 
 struct Position
@@ -57,7 +59,7 @@ enum class CellType
 
 struct Settings
 {
-    Dim gridDims{40, 10};
+    Dim gridDims{10, 10};
     struct Snake
     {
         uint32 defaultSize{4};

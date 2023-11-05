@@ -30,17 +30,20 @@ public:
     virtual void Tick(float DeltaSeconds) override;
 
 protected:
-    UPROPERTY(Category = "Settings", EditDefaultsOnly, meta = (ClampMin = "10", ClampMax = "100"))
+    UPROPERTY(Category = "Settings", EditDefaultsOnly)
+    bool bOverrideUserSettings{false};
+
+    UPROPERTY(Category = "Settings", EditDefaultsOnly, meta = (ClampMin = "10", ClampMax = "100", EditCondition = "bOverrideUserSettings", EditConditionHides))
     FUintPoint GridDims{10, 10};
 
-    UPROPERTY(Category = "Settings", EditDefaultsOnly, meta = (ClampMin = "10", ClampMax = "100"))
+    UPROPERTY(Category = "Settings", EditDefaultsOnly, meta = (ClampMin = "0.01", ClampMax = "10", EditCondition = "bOverrideUserSettings", EditConditionHides))
+    float GameSpeed{1.0f};
+
+    UPROPERTY(Category = "Settings", EditDefaultsOnly, meta = (ClampMin = "10", ClampMax = "100", EditCondition = "bOverrideUserSettings", EditConditionHides))
     uint32 CellSize{10};
 
-    UPROPERTY(Category = "Settings", EditDefaultsOnly, meta = (ClampMin = "4", ClampMax = "10"))
+    UPROPERTY(Category = "Settings", EditDefaultsOnly, meta = (ClampMin = "4", ClampMax = "10", EditCondition = "bOverrideUserSettings", EditConditionHides))
     uint32 SnakeDefaultSize{5};
-
-    UPROPERTY(Category = "Settings", EditDefaultsOnly, meta = (ClampMin = "0.01", ClampMax = "10"))
-    float GameSpeed{1.0f};
 
     UPROPERTY(Category = "Design", EditDefaultsOnly)
     TSubclassOf<ASG_Grid> GridVisualClass;
