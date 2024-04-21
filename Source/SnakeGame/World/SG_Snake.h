@@ -10,6 +10,7 @@
 #include "SG_Snake.generated.h"
 
 class ASG_SnakeLink;
+class USG_SnakeObjectPool;
 
 UCLASS()
 class SNAKEGAME_API ASG_Snake : public AActor
@@ -34,9 +35,6 @@ public:
 
 protected:
     UPROPERTY(EditDefaultsOnly)
-    TSubclassOf<ASG_SnakeLink> SnakeHeadClass;
-
-    UPROPERTY(EditDefaultsOnly)
     TSubclassOf<ASG_SnakeLink> SnakeLinkClass;
 
 private:
@@ -45,8 +43,13 @@ private:
     SnakeGame::Dim Dims;
 
     UPROPERTY()
-    TArray<ASG_SnakeLink*> SnakeLinks;
+    TArray<TObjectPtr<ASG_SnakeLink>> SnakeLinks;
 
     UPROPERTY()
     FLinearColor SnakeLinkColor{FLinearColor::Black};
+
+    UPROPERTY()
+    TObjectPtr<USG_SnakeObjectPool> SnakeObjectPool{nullptr};
+
+    void InitObjectPool();
 };

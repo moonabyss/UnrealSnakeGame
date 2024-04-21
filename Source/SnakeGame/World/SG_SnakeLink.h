@@ -23,10 +23,10 @@ public:
 
 protected:
     UPROPERTY(VisibleAnywhere)
-    USceneComponent* Origin;
+    TObjectPtr<USceneComponent> Origin;
 
     UPROPERTY(VisibleAnywhere)
-    UStaticMeshComponent* LinkMesh;
+    TObjectPtr<UStaticMeshComponent> LinkMesh;
 
     UPROPERTY(Category = "VFX", EditDefaultsOnly)
     TObjectPtr<UNiagaraSystem> ExplosionEffect;

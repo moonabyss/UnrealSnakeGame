@@ -7,46 +7,47 @@
 
 namespace SnakeGame
 {
-class IPositionRandomizer
+class SNAKEGAME_API IPositionRandomizer
 {
 public:
     virtual bool generatePosition(const Dim& dim, const TArray<CellType>& cells, Position& position) const = 0;
     virtual ~IPositionRandomizer() = default;
 };
 
-class PositionRandomizer : public IPositionRandomizer
+class SNAKEGAME_API PositionRandomizer : public IPositionRandomizer
 {
 public:
     virtual bool generatePosition(const Dim& dim, const TArray<CellType>& cells, Position& position) const override
     {
-        const auto gridSize = dim.width * dim.height;
-        const int32 startIndex = dim.width;
-        const int32 endIndex = gridSize - 1 - dim.width;
-        const int32 index = FMath::RandRange(startIndex, endIndex);
+        const uint32 startX = FMath::RandRange(1, dim.width - 2);
+        const uint32 startY = FMath::RandRange(1, dim.height - 2);
+        Position randomPosition{startX, startY};
 
-        for (int32 i = index; i < endIndex; ++i)
+        do
         {
-            if (cells[i] == CellType::Empty)
+            const uint32 currentIndex = posToIndex(randomPosition, dim);
+            if (cells[currentIndex] == CellType::Empty)
             {
-                position = indexToPos(i, dim);
+                position = randomPosition;
                 return true;
             }
-        }
 
-        for (int32 i = startIndex; i < index; ++i)
-        {
-            if (cells[i] == CellType::Empty)
+            if (++randomPosition.x > dim.width - 2)
             {
-                position = indexToPos(i, dim);
-                return true;
+                randomPosition.x = 1;
+                if (++randomPosition.y > dim.height - 2)
+                {
+                    randomPosition.y = 1;
+                }
             }
-        }
+        } while (randomPosition.x != startX || randomPosition.y != startY);
 
         return false;
     }
 
 private:
     FORCEINLINE Position indexToPos(uint32 index, const Dim& dim) const { return Position(index % dim.width, index / dim.width); }
+    FORCEINLINE uint32 posToIndex(const Position& position, const Dim& dim) const { return position.x + position.y * dim.width; }
 };
 
 using IPositionRandomizerPtr = TSharedPtr<IPositionRandomizer>;

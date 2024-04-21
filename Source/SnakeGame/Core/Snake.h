@@ -7,7 +7,7 @@
 
 namespace SnakeGame
 {
-class Snake
+class SNAKEGAME_API Snake
 {
 public:
     Snake(const Settings::Snake& settings);
@@ -23,6 +23,12 @@ public:
      * @return Position  head position
      */
     const Position& head() const { return m_links.GetHead()->GetValue(); }
+
+    /**
+     * Returns tail position
+     * @return Position  tail position
+     */
+    const Position& tail() const { return m_links.GetTail()->GetValue(); }
 
     /**
      * Moves snake links with a given input

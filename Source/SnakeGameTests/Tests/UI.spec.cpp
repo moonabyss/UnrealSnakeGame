@@ -7,10 +7,10 @@
 #include "Components/TextBlock.h"
 #include "CoreMinimal.h"
 #include "Misc/AutomationTest.h"
-#include "SnakeGame/Tests/Utils/TestUtils.h"
 #include "SnakeGame/UI/SG_GameOverWidget.h"
 #include "SnakeGame/UI/SG_GameplayWidget.h"
 #include "SnakeGame/UI/SG_StartGameWidget.h"
+#include "Tests/Utils/TestUtils.h"
 
 BEGIN_DEFINE_SPEC(FSnakeUI, "Snake", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter | EAutomationTestFlags::HighPriority)
 UWorld* World;

@@ -51,6 +51,7 @@ void ASG_HUD::SetModel(const TSharedPtr<SnakeGame::Game>& InGame)
     Game = InGame;
 
     SetUIGameState(EUIGameState::GameInProgress);
+    GameplayWidget->SetScore(InGame->score());
 
     InGame->subscribeOnGameplayEvent(
         [&](GameplayEvent Event)

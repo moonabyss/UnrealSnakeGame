@@ -7,7 +7,7 @@
 
 namespace SnakeGame
 {
-struct Dim
+struct SNAKEGAME_API Dim
 {
     uint32 width;
     uint32 height;
@@ -15,14 +15,14 @@ struct Dim
     FORCEINLINE bool operator==(const Dim& rhs) const { return width == rhs.width && height == rhs.height; }
 };
 
-struct Position
+struct SNAKEGAME_API Position
 {
     // clang-format off
     Position(uint32 inX, uint32 inY) : x(inX), y(inY) {}
-    Position(const Position& position = Position::Zero) : x(position.x), y(position.y) {}
     // clang-format on
-    uint32 x;
-    uint32 y;
+    Position() = default;
+    uint32 x{0};
+    uint32 y{0};
 
     FORCEINLINE Position& operator+=(const Position& rhs)
     {
@@ -36,10 +36,10 @@ struct Position
     const static Position Zero;
 };
 
-struct Input
+struct SNAKEGAME_API Input
 {
-    int8 x;
-    int8 y;
+    int8 x{0};
+    int8 y{0};
 
     FORCEINLINE bool opposite(const Input& rhs) const  //
     {
@@ -57,7 +57,7 @@ enum class CellType
     Food
 };
 
-struct Settings
+struct SNAKEGAME_API Settings
 {
     Dim gridDims{10, 10};
     struct Snake

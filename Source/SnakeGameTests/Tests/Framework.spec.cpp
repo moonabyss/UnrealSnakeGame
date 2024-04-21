@@ -8,7 +8,7 @@
 #include "SnakeGame/Framework/SG_GameMode.h"
 #include "SnakeGame/Framework/SG_GameUserSettings.h"
 #include "SnakeGame/Framework/SG_Pawn.h"
-#include "SnakeGame/Tests/Utils/TestUtils.h"
+#include "Tests/Utils/TestUtils.h"
 
 BEGIN_DEFINE_SPEC(FSnakeFramework, "Snake", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter | EAutomationTestFlags::HighPriority)
 UWorld* World;

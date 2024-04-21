@@ -1,6 +1,6 @@
 #if WITH_AUTOMATION_TESTS
 
-#include "SnakeGame/Tests/Utils/TestUtils.h"
+#include "Tests/Utils/TestUtils.h"
 #include "AutomationBlueprintFunctionLibrary.h"
 #include "BufferVisualizationData.h"
 #include "Misc/OutputDeviceNull.h"
