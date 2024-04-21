@@ -47,7 +47,7 @@ void USG_StartGameWidget::OnStartGame()
 {
     if (!GameLevel.IsNull())
     {
-        UGameplayStatics::OpenLevel(GetWorld(), FName(GameLevel.GetAssetName()));
+        UGameplayStatics::OpenLevelBySoftObjectPtr(GetWorld(), GameLevel);
     }
 }
 

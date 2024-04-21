@@ -12,7 +12,7 @@ class Food;
 class Grid;
 class Snake;
 
-class Game
+class SNAKEGAME_API Game
 {
 public:
     Game(const Settings& settings, const IPositionRandomizerPtr& randomizer = MakeShared<PositionRandomizer>());
@@ -63,7 +63,7 @@ private:
 
     void updateGrid();
     bool updateTime(float deltaSeconds);
-    bool died() const;
+    bool died(const Position& prevTailPosition) const;
 
     void generateFood();
     bool foodTaken() const;

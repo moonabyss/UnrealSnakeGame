@@ -6,12 +6,12 @@
 #include "Kismet/GameplayStatics.h"
 #include "Misc/AutomationTest.h"
 #include "SnakeGame/Core/Grid.h"
-#include "SnakeGame/Tests/Utils/TestUtils.h"
 #include "SnakeGame/World/SG_Food.h"
 #include "SnakeGame/World/SG_Grid.h"
 #include "SnakeGame/World/SG_Snake.h"
 #include "SnakeGame/World/SG_WorldTypes.h"
 #include "SnakeGame/World/SG_WorldUtils.h"
+#include "Tests/Utils/TestUtils.h"
 
 BEGIN_DEFINE_SPEC(FSnakeWorld, "Snake", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter | EAutomationTestFlags::HighPriority)
 UWorld* World;
@@ -35,7 +35,7 @@ void FSnakeWorld::Define()
                     AutomationOpenMap("/Game/Tests/TestEmptyLevel");
                     World = GetTestGameWorld();
 
-                    constexpr char* GridBPName = "Blueprint'/Game/World/BP_SnakeGrid.BP_SnakeGrid'";
+                    constexpr const char* GridBPName = "Blueprint'/Game/World/BP_SnakeGrid.BP_SnakeGrid'";
 
                     Dims = SnakeGame::Dim{10, 10};
                     CellSize = 20;

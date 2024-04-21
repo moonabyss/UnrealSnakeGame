@@ -1,3 +1,5 @@
+// Snake Game, Copyright moonabyss. All Rights Reserved.
+
 #pragma once
 
 #if WITH_AUTOMATION_TESTS

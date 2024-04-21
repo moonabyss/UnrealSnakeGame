@@ -38,14 +38,14 @@ public:
 
 protected:
     UPROPERTY(VisibleAnywhere)
-    USceneComponent* Origin;
+    TObjectPtr<USceneComponent> Origin;
 
     UPROPERTY(VisibleAnywhere)
-    UStaticMeshComponent* GridMesh;
+    TObjectPtr<UStaticMeshComponent> GridMesh;
 
 private:
     UPROPERTY()
-    UMaterialInstanceDynamic* GridMaterial;
+    TObjectPtr<UMaterialInstanceDynamic> GridMaterial;
 
     SnakeGame::Dim GridDim;
     uint32 CellSize;

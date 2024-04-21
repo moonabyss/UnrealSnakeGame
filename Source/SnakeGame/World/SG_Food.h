@@ -35,10 +35,10 @@ public:
 
 protected:
     UPROPERTY(VisibleAnywhere)
-    USceneComponent* Origin;
+    TObjectPtr<USceneComponent> Origin;
 
     UPROPERTY(VisibleAnywhere)
-    UStaticMeshComponent* FoodMesh;
+    TObjectPtr<UStaticMeshComponent> FoodMesh;
 
     UPROPERTY(Category = "VFX", EditDefaultsOnly)
     TObjectPtr<UNiagaraSystem> ExplosionEffect;

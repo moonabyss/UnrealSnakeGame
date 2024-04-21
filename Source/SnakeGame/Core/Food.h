@@ -8,7 +8,7 @@
 namespace SnakeGame
 {
 
-class Food
+class SNAKEGAME_API Food
 {
 public:
     Food() = default;
