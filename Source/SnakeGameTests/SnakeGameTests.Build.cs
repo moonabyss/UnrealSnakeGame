@@ -17,10 +17,5 @@ public class SnakeGameTests : ModuleRules
         {
             PublicDependencyModuleNames.Add("FunctionalTesting");
         }
-
-        if (Target.ProjectDefinitions.Contains("UNOPTIMIZED_CODE"))
-        {
-            OptimizeCode = CodeOptimization.Never;
-        }
     }
 }
